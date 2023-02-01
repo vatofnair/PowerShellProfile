@@ -12,12 +12,14 @@ function SessionIsElevated {
 
 if(SessionIsElevated){ # Code to run only when powershell is started as Administrator.
     Initialize-RandomAccess
-    
-    # Dot source Start-Firefox.ps1 script.
-    . C:\ProgramData\ukcv3sfoxt0\PowerShell\Snippets\Start-Firefox.ps1
 
-    # Set default parameter value for profile path.
-    $PSDefaultParameterValues['Start-Firefox:ProfilePath'] = "$($Env:ALLUSERSPROFILE)\FF_Profile"
+    if ($RandomAccess.IsMounted()) {
+      # Dot source Start-Firefox.ps1 script.
+      . "$($Env:RAD)\PowerShell\Snippets\Start-Firefox.ps1"
+
+      # Set default parameter value for profile path.
+      $PSDefaultParameterValues['Start-Firefox:ProfilePath'] = "$($Env:ALLUSERSPROFILE)\FF_Profile"
+    }
   }
 # Import the Chocolatey Profile that contains the necessary code to enable
 # tab-completions to function for `choco`.
